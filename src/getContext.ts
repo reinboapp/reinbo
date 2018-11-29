@@ -1,9 +1,15 @@
 import { ContextParameters } from "graphql-yoga/dist/types";
 import { MongoClient, Db } from "mongodb";
+import * as jwt from "jsonwebtoken";
+import { User } from "./entities/User";
 
+export interface JwtUser extends User {
+  iat?: number;
+  exp?: number;
+}
 export interface AppContext {
   mongoDb: Db;
-  authUser: object;
+  authUser: JwtUser;
   userAgent: string;
 }
 
@@ -14,19 +20,24 @@ const getContext = (client: MongoClient) => {
     const userAgent: string = req.request.header("user-agent");
 
     let token: string = "";
+    let authUser: JwtUser = {};
     if (authHeader) {
       const [firstWord, secondWord] = authHeader.split(" ");
       if (firstWord === "Bearer" && secondWord) {
         token = secondWord;
+        const accessSecret = process.env.JWT_ACCESS_SECRET;
+        let isJwtVerified = {};
+        try {
+          isJwtVerified = jwt.verify(token, accessSecret);
+        } catch (e) {
+          // tslint:disable-next-line:no-empty
+        }
+        authUser = isJwtVerified as object;
       }
-      console.log(token);
     }
-
-    const user = {};
-
     return {
       mongoDb: client.db(),
-      authUser: user,
+      authUser,
       userAgent
     };
   };
