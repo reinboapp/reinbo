@@ -11,9 +11,12 @@ export class User {
   })
   username?: string;
 
-  @IsEmail(null, {
-    groups: ["show", "create"]
-  })
+  @IsEmail(
+    {},
+    {
+      groups: ["show", "create"]
+    }
+  )
   email?: string;
 
   @MinLength(8, {

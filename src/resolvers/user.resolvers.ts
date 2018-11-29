@@ -26,10 +26,12 @@ export default {
       const errors: ValidationError[] = await validate(user, {
         groups: ["create"]
       });
+      console.error(errors);
       if (errors.length > 0) {
         throw new Error(errors.toString());
       } else {
         const userRepository = new UserRepository(mongoDb);
+        user.password = await argon2.hash(user.password);
         return userRepository.create(user);
       }
     }

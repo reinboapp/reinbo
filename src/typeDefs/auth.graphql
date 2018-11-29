@@ -1,0 +1,12 @@
+type Auth {
+  accessToken: String
+}
+
+input AuthInput {
+  credentials: String #username or email
+  password: String
+}
+
+type Mutation {
+  authLogin(input: AuthInput): Auth!
+}
