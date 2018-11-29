@@ -23,4 +23,7 @@ export class User {
     groups: ["create"]
   })
   password?: string;
+
+  createdAt?: number;
+  updatedAt?: number;
 }

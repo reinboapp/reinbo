@@ -26,7 +26,7 @@ export default {
       const errors: ValidationError[] = await validate(user, {
         groups: ["create"]
       });
-      console.error(errors);
+      // console.error(errors);
       if (errors.length > 0) {
         throw new Error(errors.toString());
       } else {

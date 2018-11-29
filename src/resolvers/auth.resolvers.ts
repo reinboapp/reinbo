@@ -4,14 +4,20 @@ import { UserRepository } from "../repositories/UserRepository";
 import { ValidationError, validate } from "class-validator";
 import * as argon2 from "argon2";
 import { User } from "../entities/User";
+import * as jwt from "jsonwebtoken";
 
 export default {
   Mutation: {
-    async authLogin(_, { input }: { input: Auth }, { mongoDb }: AppContext) {
+    async authLogin(
+      _,
+      { input }: { input: Auth },
+      { mongoDb, userAgent }: AppContext
+    ) {
       const auth = new Auth();
       auth.email = input.email;
       auth.username = input.username;
       auth.password = input.password;
+
       if (!auth.email && !auth.username) {
         throw new Error("No email and username provided");
       }
@@ -55,8 +61,29 @@ export default {
       if (!passwordVerified) {
         throw new Error("Password not match");
       }
-      // return {"result"};
-      return {};
+
+      const accessPayload = {
+        ...user,
+        password: undefined
+      };
+      const accessSecret = process.env.JWT_ACCESS_SECRET;
+      const accessToken = await jwt.sign(accessPayload, accessSecret, {
+        expiresIn: "1h"
+      });
+
+      const refreshPayload = {
+        _id: user._id,
+        ua: userAgent
+      };
+      const refreshSecret = process.env.JWT_REFRESH_SECRET;
+      const refreshToken = await jwt.sign(refreshPayload, refreshSecret, {
+        expiresIn: "7d"
+      });
+
+      return {
+        accessToken,
+        refreshToken
+      };
     }
   }
 };

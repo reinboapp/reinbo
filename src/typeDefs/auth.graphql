@@ -1,6 +1,6 @@
 type Auth {
   accessToken: String
-  refreshTokken: String
+  refreshToken: String
 }
 
 input AuthInput {

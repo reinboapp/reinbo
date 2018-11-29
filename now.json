@@ -1,5 +1,7 @@
 {
   "env": {
-    "MONGO_URI_DEVELOPMENT": "@mongo-uri-development"
+    "MONGO_URI_DEVELOPMENT": "@mongo-uri-development",
+    "JWT_ACCESS_SECRET": "@jwt-access-secret",
+    "JWT_REFRESH_SECRET": "@jwt-refresh-secret"
   }
 }

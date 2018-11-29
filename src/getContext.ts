@@ -3,13 +3,16 @@ import { MongoClient, Db } from "mongodb";
 
 export interface AppContext {
   mongoDb: Db;
-  user: object;
+  authUser: object;
+  userAgent: string;
 }
 
 const getContext = (client: MongoClient) => {
   const context = async (req: ContextParameters): Promise<AppContext> => {
-    // Authorization -> return user
+    // get from header
     const authHeader: string = req.request.header("Authorization");
+    const userAgent: string = req.request.header("user-agent");
+
     let token: string = "";
     if (authHeader) {
       const [firstWord, secondWord] = authHeader.split(" ");
@@ -23,7 +26,8 @@ const getContext = (client: MongoClient) => {
 
     return {
       mongoDb: client.db(),
-      user
+      authUser: user,
+      userAgent
     };
   };
   return context;
