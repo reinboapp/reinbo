@@ -1,10 +1,16 @@
 import { ContextParameters } from "graphql-yoga/dist/types";
-import { MongoClient } from "mongodb";
+import { MongoClient, Db } from "mongodb";
+
+export interface AppContext {
+  mongoDb: Db;
+  user: object;
+}
 
 const getContext = (client: MongoClient) => {
-  const context = async (req: ContextParameters) => {
+  const context = async (req: ContextParameters): Promise<AppContext> => {
+    // Authorization -> return user
     const authHeader: string = req.request.header("Authorization");
-    let token = "";
+    let token: string = "";
     if (authHeader) {
       const [firstWord, secondWord] = authHeader.split(" ");
       if (firstWord === "Bearer" && secondWord) {
@@ -12,8 +18,12 @@ const getContext = (client: MongoClient) => {
       }
       console.log(token);
     }
+
+    const user = {};
+
     return {
-      mongoDb: client.db()
+      mongoDb: client.db(),
+      user
     };
   };
   return context;

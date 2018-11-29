@@ -1,10 +1,12 @@
 type Auth {
   accessToken: String
+  refreshTokken: String
 }
 
 input AuthInput {
-  credentials: String #username or email
-  password: String
+  username: String
+  email: String
+  password: String!
 }
 
 type Mutation {
