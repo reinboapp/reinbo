@@ -8,8 +8,8 @@ import { MongoClient, ObjectId } from "mongodb";
 
 import { default as typeDefs } from "./typeDefs";
 import { default as resolvers } from "./resolvers";
-import { ContextParameters } from "graphql-yoga/dist/types";
 import getContext from "./getContext";
+import middlewares from "./middlewares";
 
 const mongoUri = process.env.MONGO_URI_DEVELOPMENT;
 
@@ -28,12 +28,12 @@ MongoClient.connect(
     const server = new GraphQLServer({
       typeDefs,
       resolvers,
-      context
+      context,
+      middlewares
     });
 
     server.start(() => console.log("Server is running on localhost:4000"));
   })
   .catch(err => {
-    console.log(err);
-    console.error("Not connect mongo");
+    console.error(err);
   });

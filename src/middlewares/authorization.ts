@@ -1,8 +1,13 @@
+import { AppContext } from "./../getContext";
 import { resolversKeys } from "../resolvers/";
 
 const createAuth = () => {
-  return async (resolve, _, args, { authUser }, info) => {
-    if (!authUser.id) {
+  return async (resolve, _, args, { authUser }: AppContext, info) => {
+    if (authUser.error) {
+      throw new Error(authUser.error);
+    }
+
+    if (!authUser._id) {
       throw new Error(`Not authorized!`);
     }
     return resolve();
@@ -23,8 +28,10 @@ export default {
   Mutation: {
     ...withAuth("Mutation"),
     authLogin: passAuth,
-    userRegister: passAuth
+    userCreate: passAuth
   },
-  Query: {},
-  Subscription: {}
+  Query: {
+    ...withAuth("Query")
+  }
+  // Subscription: {}
 };
