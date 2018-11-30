@@ -10,6 +10,7 @@ import { default as typeDefs } from "./typeDefs";
 import { default as resolvers } from "./resolvers";
 import getContext from "./getContext";
 import middlewares from "./middlewares";
+import BaseError from "./errors/BaseError";
 
 const mongoUri = process.env.MONGO_URI_DEVELOPMENT;
 
@@ -22,7 +23,7 @@ MongoClient.connect(
   mongoUri,
   { useNewUrlParser: true }
 )
-  .then(client => {
+  .then(async client => {
     const context = getContext(client);
 
     const server = new GraphQLServer({
@@ -32,7 +33,15 @@ MongoClient.connect(
       middlewares
     });
 
-    server.start(() => console.log("Server is running on localhost:4000"));
+    await server.start({
+      formatError(err) {
+        return {
+          ...err.originalError,
+          ...err
+        };
+      }
+    });
+    console.log("Server is running on localhost:4000");
   })
   .catch(err => {
     console.error(err);

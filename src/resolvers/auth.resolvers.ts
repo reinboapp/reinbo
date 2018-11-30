@@ -5,6 +5,7 @@ import { ValidationError, validate } from "class-validator";
 import * as argon2 from "argon2";
 import { User } from "../entities/User";
 import * as jwt from "jsonwebtoken";
+import BaseError from "../errors/BaseError";
 
 export default {
   Mutation: {
@@ -19,7 +20,11 @@ export default {
       auth.password = input.password;
 
       if (!auth.email && !auth.username) {
-        throw new Error("No email and username provided");
+        throw new BaseError({
+          statusCode: 400,
+          name: "BadRequest",
+          message: "Email or username not provided"
+        });
       }
 
       let user: User = {};
@@ -51,7 +56,13 @@ export default {
       }
 
       if (!user) {
-        throw new Error("No user found");
+        throw new BaseError({
+          statusCode: 404,
+          name: "NotFound",
+          message: `User with${auth.email ? ` email: ${auth.email}` : ""}${
+            auth.username ? ` username: ${auth.username}` : ""
+          } not found`
+        });
       }
 
       const passwordVerified = await argon2.verify(
@@ -59,7 +70,11 @@ export default {
         auth.password
       );
       if (!passwordVerified) {
-        throw new Error("Password not match");
+        throw new BaseError({
+          statusCode: 401,
+          name: "WrongPassword",
+          message: "password wrong"
+        });
       }
 
       const accessPayload = {
