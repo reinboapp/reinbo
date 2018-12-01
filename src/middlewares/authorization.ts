@@ -1,14 +1,20 @@
 import { AppContext } from "./../getContext";
 import { resolversKeys } from "../resolvers/";
+import UnauthorizedError from "../errors/UnauthorizedError";
+import BaseError from "../errors/BaseError";
 
 const createAuth = () => {
   return async (resolve, _, args, { authUser }: AppContext, info) => {
     if (authUser.error) {
-      throw new Error(authUser.error);
+      throw new BaseError({
+        statusCode: 401,
+        name: authUser.error.name,
+        message: authUser.error.message
+      });
     }
 
     if (!authUser._id) {
-      throw new Error(`Not authorized!`);
+      throw new UnauthorizedError();
     }
     return resolve();
   };

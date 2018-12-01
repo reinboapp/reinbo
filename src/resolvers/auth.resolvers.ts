@@ -11,6 +11,7 @@ import { User } from "../entities/User";
 import BadRequestError from "../errors/BadRequestError";
 import NotFoundError from "../errors/NotFoundError";
 import UnauthorizedError from "../errors/UnauthorizedError";
+import CustomValidationError from "../errors/CustomValidationError";
 
 export default {
   Mutation: {
@@ -19,6 +20,9 @@ export default {
       { input }: { input: Auth },
       { mongoDb, userAgent }: AppContext
     ) {
+      if (!input) {
+        throw new BadRequestError("Invalid Input Data");
+      }
       const auth = new Auth();
       auth.email = input.email;
       auth.username = input.username;
@@ -36,7 +40,7 @@ export default {
           groups: ["loginUsername"]
         });
         if (errors.length > 0) {
-          throw new Error(errors.toString());
+          throw new CustomValidationError(errors);
         } else {
           const userRepository = new UserRepository(mongoDb);
           user = await userRepository.findByUsername(auth.username);
@@ -49,7 +53,7 @@ export default {
           groups: ["loginEmail"]
         });
         if (errors.length > 0) {
-          throw new Error(errors.toString());
+          throw new CustomValidationError(errors);
         } else {
           const userRepository = new UserRepository(mongoDb);
           user = await userRepository.findByEmail(auth.email);

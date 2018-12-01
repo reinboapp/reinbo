@@ -6,7 +6,7 @@ import { User } from "./entities/User";
 export interface JwtUser extends User {
   iat?: number;
   exp?: number;
-  error?: string | false;
+  error?: jwt.VerifyErrors | false;
 }
 export interface AppContext {
   mongoDb: Db;
@@ -22,7 +22,7 @@ const getContext = (client: MongoClient) => {
 
     let token: string | false = false;
     let authUser: JwtUser = {};
-    let errorName: string | false = false;
+    let authError: jwt.VerifyErrors | false = false;
 
     if (authHeader) {
       const [firstWord, secondWord] = authHeader.split(" ");
@@ -34,12 +34,12 @@ const getContext = (client: MongoClient) => {
         try {
           isJwtVerified = jwt.verify(token, accessSecret);
         } catch (e) {
-          errorName = e.name;
+          authError = e;
         }
 
         // check error
-        if (errorName) {
-          authUser.error = errorName;
+        if (authError) {
+          authUser.error = authError;
         } else {
           authUser = isJwtVerified as object;
           authUser.error = false;
