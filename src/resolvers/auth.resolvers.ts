@@ -1,11 +1,16 @@
+import * as argon2 from "argon2";
+import * as jwt from "jsonwebtoken";
+
+import { ValidationError, validate } from "class-validator";
+
+import { UserRepository } from "../repositories/UserRepository";
 import { AppContext } from "./../getContext";
 import { Auth } from "./../entities/Auth";
-import { UserRepository } from "../repositories/UserRepository";
-import { ValidationError, validate } from "class-validator";
-import * as argon2 from "argon2";
 import { User } from "../entities/User";
-import * as jwt from "jsonwebtoken";
-import BaseError from "../errors/BaseError";
+// import BaseError from "../errors/BaseError";
+import BadRequestError from "../errors/BadRequestError";
+import NotFoundError from "../errors/NotFoundError";
+import UnauthorizedError from "../errors/UnauthorizedError";
 
 export default {
   Mutation: {
@@ -20,11 +25,7 @@ export default {
       auth.password = input.password;
 
       if (!auth.email && !auth.username) {
-        throw new BaseError({
-          statusCode: 400,
-          name: "BadRequest",
-          message: "Email or username not provided"
-        });
+        throw new BadRequestError("Email/Username not provided");
       }
 
       let user: User = {};
@@ -56,13 +57,11 @@ export default {
       }
 
       if (!user) {
-        throw new BaseError({
-          statusCode: 404,
-          name: "NotFound",
-          message: `User with${auth.email ? ` email: ${auth.email}` : ""}${
+        throw new NotFoundError(
+          `User with${auth.email ? ` email: ${auth.email}` : ""}${
             auth.username ? ` username: ${auth.username}` : ""
           } not found`
-        });
+        );
       }
 
       const passwordVerified = await argon2.verify(
@@ -70,11 +69,7 @@ export default {
         auth.password
       );
       if (!passwordVerified) {
-        throw new BaseError({
-          statusCode: 401,
-          name: "WrongPassword",
-          message: "password wrong"
-        });
+        throw new UnauthorizedError("Wrong password");
       }
 
       const accessPayload = {
