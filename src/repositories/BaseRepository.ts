@@ -5,6 +5,8 @@ import {
   DeleteWriteOpResultObject
 } from "mongodb";
 
+import DatabaseError from "../errors/DatabaseError";
+
 export class BaseRepository<T> {
   protected readonly collection: Collection;
 
@@ -17,7 +19,7 @@ export class BaseRepository<T> {
       const result = await this.collection.find(item).toArray();
       return result;
     } catch (e) {
-      throw e;
+      throw new DatabaseError(e);
     }
   }
   findOne(_id: string): Promise<T> {
@@ -28,7 +30,7 @@ export class BaseRepository<T> {
       await this.collection.insertOne(item);
       return item;
     } catch (e) {
-      throw e;
+      throw new DatabaseError(e);
     }
   }
   update(_id: string, item: T): Promise<WriteOpResult> {

@@ -6,16 +6,9 @@ export class Auth {
   })
   username?: string;
 
-  @IsEmail(
-    {},
-    {
-      groups: ["loginEmail"]
-    }
-  )
+  @IsEmail({}, { groups: ["loginEmail"] })
   email?: string;
 
-  @MinLength(8, {
-    groups: ["loginUsername", "loginEmail"]
-  })
+  @MinLength(8, { groups: ["loginUsername", "loginEmail"] })
   password?: string;
 }

@@ -9,8 +9,12 @@ export default {
   Query: {
     userFind(_, { input }: { input: User }, { mongoDb }: { mongoDb: Db }) {
       const userRepository = new UserRepository(mongoDb);
-      return userRepository.find({});
+      return userRepository.find(input);
     }
+    // userCheckUsername(_, { input }, { mongoDb }: { mongoDb: Db }) {
+    //   const userRepository = new UserRepository(mongoDb);
+    //   return userRepository.findOne;
+    // }
   },
   Mutation: {
     async userCreate(

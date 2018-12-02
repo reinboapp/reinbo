@@ -1,8 +1,8 @@
 import { ValidationError } from "class-validator";
 import BaseError from "./BaseError";
 
+/** because name ValidationError exists in `class-validator` */
 export default class CustomValidationError extends BaseError {
-  // message: string;
   constructor(errors: ValidationError[]) {
     super({
       statusCode: 400,
