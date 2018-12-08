@@ -14,6 +14,7 @@ MongoClient.connect(
 
   await db.createIndex("users", "email", { unique: true });
   await db.createIndex("users", "username", { unique: true });
+  await db.createIndex("users", { username: "text", email: "text" });
 
   console.log("finish creating index");
 

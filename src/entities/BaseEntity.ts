@@ -1,11 +1,10 @@
 import { IsMongoId, IsDate } from "class-validator";
+import { ObjectID } from "bson";
 
 export class BaseEntity {
-  @IsMongoId({ groups: ["show"] })
-  _id?: string;
+  @IsMongoId({ groups: ["query"] })
+  _id?: string | ObjectID;
 
-  @IsDate({ groups: ["show"] })
   createdAt?: Date;
-  @IsDate({ groups: ["show"] })
   updatedAt?: Date;
 }

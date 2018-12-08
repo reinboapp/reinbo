@@ -10,5 +10,5 @@ input AuthInput {
 }
 
 type Mutation {
-  authLogin(input: AuthInput): Auth!
+  authLogin(input: AuthInput!): Auth!
 }

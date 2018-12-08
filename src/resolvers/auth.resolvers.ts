@@ -3,8 +3,8 @@ import * as jwt from "jsonwebtoken";
 
 import { ValidationError, validate } from "class-validator";
 
-import { UserRepository } from "../repositories/UserRepository";
 import { AppContext } from "./../getContext";
+import { UserRepository } from "../repositories/UserRepository";
 import { Auth } from "./../entities/Auth";
 import { User } from "../entities/User";
 // import BaseError from "../errors/BaseError";

@@ -10,9 +10,9 @@ export class UserRepository extends BaseRepository<User> {
   }
 
   findByUsername(username: string): Promise<User> {
-    return this.collection.findOne({ username });
+    return this.findOne({ username });
   }
   findByEmail(email: string): Promise<User> {
-    return this.collection.findOne({ email });
+    return this.findOne({ email });
   }
 }
