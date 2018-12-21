@@ -3,6 +3,7 @@ import UnauthorizedError from "../../errors/UnauthorizedError";
 import { AppContext } from "../../getContext";
 import { createToken } from "./createToken";
 
+// mutation
 export async function authRefreshToken(
   _,
   { input }: { input: { refreshToken: string } },

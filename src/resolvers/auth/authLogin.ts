@@ -10,6 +10,7 @@ import { AppContext } from "../../getContext";
 import { UserRepository } from "../../repositories/UserRepository";
 import { createToken } from "./createToken";
 
+// mutation
 export async function authLogin(
   _,
   { input }: { input: Auth },
