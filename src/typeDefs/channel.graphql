@@ -1,0 +1,35 @@
+type Channel {
+  _id: ID
+
+  roomId: String
+  channelname: String
+  name: String
+  description: String
+  isPrivate: Boolean
+
+  members: [User]
+
+  createdAt: String
+  updatedAt: String
+}
+
+input ChannelMutationInput {
+  channelname: String
+  name: String
+  description: String
+  isPrivate: Boolean
+}
+
+type Query {
+  channelChats(id: ID!, size: Number, offset: Number): [Chats!]!
+}
+
+type Mutation {
+  channelCreate(input: ChannelMutationInput!): Channel!
+  channelUpdate(id: ID!, input: ChannelMutationInput!): Channel!
+  channelDelete(id: ID!): Boolean!
+
+  channelJoin(id: ID!) Channel!
+  channelLeave(id: ID!) Boolean!
+  channelKickUser(id: ID!, userId: ID!): Boolean!
+}

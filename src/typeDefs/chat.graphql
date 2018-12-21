@@ -1,0 +1,37 @@
+enum ChatEmbedType {
+  NONE
+  IMG
+  LINK
+}
+
+type Chat {
+  _id: ID
+
+  userId: ID
+  channelId: ID
+
+  content: String
+  embedType: ChatEmbedType
+  embedLink: String
+
+  createdAt: String
+  updatedAt: String
+}
+
+
+
+type ChatMutationInput {
+  content: String
+  embedType: ChatEmbedType
+  embedLink: String
+}
+
+type Mutation {
+  chatSend(channelId: ID!, input: ChatMutationInput!): Chat!
+  chatUpdate(id: ID!, ChatMutationInput!): Chat!
+  chatDelete(id: ID!): Boolean!
+
+  # isTyping === true, start typing,
+  # isTyping === false, stop typing,
+  chatIsTyping(channelId: ID!, isTyping: Boolean!)
+}

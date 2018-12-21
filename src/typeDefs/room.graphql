@@ -1,0 +1,51 @@
+type Room {
+  _id: ID
+
+  roomname: String # Public, like username
+  name: String
+  description: String
+  isPrivate: Boolean
+  isGroup: Boolean
+
+  owner: ID
+  admins: [User]
+  members: [User]
+  channels: [Channel]
+
+  createdAt: String
+  updatedAt: String
+}
+
+
+input RoomQueryInput {
+  _id: ID
+  roomname: String # Public, like username
+  name: String
+  description: String
+  isPrivate: Boolean
+  isGroup: Boolean
+}
+
+input RoomMutationInput {
+  roomname: String! # Public, like username
+  name: String!
+  description: String!
+  isPublic: Boolean!
+  isGroup: Boolean!
+}
+
+type Query {
+  roomMine(): [Room!]!
+  roomFind(input: RoomQueryInput!): [Room!]!
+  roomFindOne(input: RoomQueryInput!): Room!
+}
+
+type Mutation {
+  roomCreate(input: RoomMutationInput!): Room!
+  roomUpdate(id: ID!, input: RoomMutationInput!): Room!
+  roomDelete(id: ID!): Boolean!
+
+  roomJoin(id: ID!): Room!
+  roomLeave(id: ID!): Boolean!
+  roomKickUser(id: ID!, userId: ID!): Boolean!
+}
