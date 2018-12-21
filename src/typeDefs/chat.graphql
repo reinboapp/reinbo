@@ -18,8 +18,6 @@ type Chat {
   updatedAt: String
 }
 
-
-
 type ChatMutationInput {
   content: String
   embedType: ChatEmbedType
@@ -28,10 +26,10 @@ type ChatMutationInput {
 
 type Mutation {
   chatSend(channelId: ID!, input: ChatMutationInput!): Chat!
-  chatUpdate(id: ID!, ChatMutationInput!): Chat!
+  chatUpdate(id: ID!, input: ChatMutationInput!): Chat!
   chatDelete(id: ID!): Boolean!
 
   # isTyping === true, start typing,
   # isTyping === false, stop typing,
-  chatIsTyping(channelId: ID!, isTyping: Boolean!)
+  chatIsTyping(channelId: ID!, isTyping: Boolean!): Boolean!
 }

@@ -20,8 +20,14 @@ input ChannelMutationInput {
   isPrivate: Boolean
 }
 
+input ChatPagingInput {
+  size: Int
+  beforeId: ID
+  afterId: ID
+}
+
 type Query {
-  channelChats(id: ID!, size: Number, offset: Number): [Chats!]!
+  channelChats(id: ID!, paging: ChatPagingInput): [Chat!]!
 }
 
 type Mutation {
@@ -29,7 +35,11 @@ type Mutation {
   channelUpdate(id: ID!, input: ChannelMutationInput!): Channel!
   channelDelete(id: ID!): Boolean!
 
-  channelJoin(id: ID!) Channel!
-  channelLeave(id: ID!) Boolean!
+  channelJoin(id: ID!): Channel!
+  channelLeave(id: ID!): Boolean!
   channelKickUser(id: ID!, userId: ID!): Boolean!
+}
+
+type Subscription {
+  channelChats(id: ID!): [Chat!]!
 }

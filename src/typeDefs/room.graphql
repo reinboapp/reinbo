@@ -16,7 +16,6 @@ type Room {
   updatedAt: String
 }
 
-
 input RoomQueryInput {
   _id: ID
   roomname: String # Public, like username
@@ -35,7 +34,7 @@ input RoomMutationInput {
 }
 
 type Query {
-  roomMine(): [Room!]!
+  roomMine: [Room!]!
   roomFind(input: RoomQueryInput!): [Room!]!
   roomFindOne(input: RoomQueryInput!): Room!
 }
