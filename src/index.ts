@@ -10,7 +10,7 @@ import middlewares from "./middlewares";
 import { default as resolvers } from "./resolvers";
 import { default as typeDefs } from "./typeDefs";
 
-const mongoUri = process.env.MONGO_URI_DEVELOPMENT;
+const mongoUri = process.env.MONGO_URI;
 
 /** this */
 ObjectId.prototype.valueOf = function() {

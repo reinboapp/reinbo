@@ -1,7 +1,9 @@
 import { ContextParameters } from "graphql-yoga/dist/types";
-import { MongoClient, Db } from "mongodb";
+import * as Redis from "ioredis";
 import * as jwt from "jsonwebtoken";
+import { Db, MongoClient } from "mongodb";
 import { User } from "./entities/User";
+import { PubSub } from "graphql-yoga";
 
 export interface JwtUser extends User {
   iat?: number;
@@ -12,6 +14,9 @@ export interface AppContext {
   mongoDb: Db;
   authUser: JwtUser;
   userAgent: string;
+  redis: Redis.Redis;
+  redisPub: Redis.Redis;
+  pubsub: PubSub;
 }
 
 const getContext = (client: MongoClient) => {
@@ -47,10 +52,18 @@ const getContext = (client: MongoClient) => {
       }
     }
 
+    const mongoDb = client.db();
+    const pubsub = new PubSub();
+    const redis = new Redis();
+    const redisPub = new Redis();
+
     return {
-      mongoDb: client.db(),
+      mongoDb,
       authUser,
-      userAgent
+      userAgent,
+      redis,
+      redisPub,
+      pubsub
     };
   };
   return context;
