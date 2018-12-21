@@ -9,6 +9,11 @@ input AuthInput {
   password: String!
 }
 
+input RefreshTokenInput {
+  refreshToken: String!
+}
+
 type Mutation {
   authLogin(input: AuthInput!): Auth!
+  authRefreshToken(input: RefreshTokenInput!): Auth!
 }

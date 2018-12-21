@@ -1,7 +1,7 @@
-import { AppContext } from "./../getContext";
-import { resolversKeys } from "../resolvers/";
-import UnauthorizedError from "../errors/UnauthorizedError";
 import BaseError from "../errors/BaseError";
+import UnauthorizedError from "../errors/UnauthorizedError";
+import { resolversKeys } from "../resolvers/";
+import { AppContext } from "./../getContext";
 
 const createAuth = () => {
   return async (resolve, _, args, { authUser }: AppContext, info) => {
@@ -34,6 +34,7 @@ export default {
   Mutation: {
     ...withAuth("Mutation"),
     authLogin: passAuth,
+    authRefreshToken: passAuth,
     userCreate: passAuth
   },
   Query: {

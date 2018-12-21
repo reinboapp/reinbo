@@ -1,7 +1,6 @@
-import { BaseEntity } from "./../entities/BaseEntity";
-import { Db, Collection } from "mongodb";
-
+import { Collection, Db } from "mongodb";
 import DatabaseError from "../errors/DatabaseError";
+import { BaseEntity } from "./../entities/BaseEntity";
 
 export class BaseRepository<T extends BaseEntity> {
   protected readonly collection: Collection;

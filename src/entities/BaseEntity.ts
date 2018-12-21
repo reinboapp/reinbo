@@ -1,5 +1,5 @@
-import { IsMongoId, IsDate } from "class-validator";
 import { ObjectID } from "bson";
+import { IsMongoId } from "class-validator";
 
 export class BaseEntity {
   @IsMongoId({ groups: ["query"] })

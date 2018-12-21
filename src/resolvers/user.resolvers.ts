@@ -1,10 +1,9 @@
 import * as argon2 from "argon2";
-import { Db, ObjectId } from "mongodb";
 import { validate, ValidationError } from "class-validator";
-
+import { Db, ObjectId } from "mongodb";
+import CustomValidationError from "../errors/CustomValidationError";
 import { User } from "./../entities/User";
 import { UserRepository } from "./../repositories/UserRepository";
-import CustomValidationError from "../errors/CustomValidationError";
 
 export default {
   Query: {

@@ -5,12 +5,10 @@ require("pretty-error").start();
 
 import { GraphQLServer } from "graphql-yoga";
 import { MongoClient, ObjectId } from "mongodb";
-
-import { default as typeDefs } from "./typeDefs";
-import { default as resolvers } from "./resolvers";
 import getContext from "./getContext";
 import middlewares from "./middlewares";
-import BaseError from "./errors/BaseError";
+import { default as resolvers } from "./resolvers";
+import { default as typeDefs } from "./typeDefs";
 
 const mongoUri = process.env.MONGO_URI_DEVELOPMENT;
 
@@ -21,7 +19,9 @@ ObjectId.prototype.valueOf = function() {
 
 MongoClient.connect(
   mongoUri,
-  { useNewUrlParser: true }
+  {
+    useNewUrlParser: true
+  }
 )
   .then(async client => {
     const context = getContext(client);

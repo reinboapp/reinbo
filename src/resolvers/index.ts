@@ -1,8 +1,7 @@
 import { mergeResolvers } from "merge-graphql-schemas";
-import welcomeResolvers from "./welcome.resolvers";
-
 import authResolvers from "./auth.resolvers";
 import userResolvers from "./user.resolvers";
+import welcomeResolvers from "./welcome.resolvers";
 
 const resolversArray = [authResolvers, userResolvers, welcomeResolvers];
 
