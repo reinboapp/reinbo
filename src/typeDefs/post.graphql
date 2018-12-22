@@ -1,0 +1,36 @@
+enum PostEmbedType {
+  NONE
+  IMG
+  LINK
+}
+
+type Post {
+  _id: ID
+
+  userId: ID
+
+  text: String
+  type: PostEmbedType
+  embed: String
+
+  replyId: ID
+
+  createdAt: String
+  updatedAt: String
+}
+
+input PostMutationInput {
+  text: String
+  type: PostEmbedType
+  embed: String
+}
+
+type Mutation {
+  postSend(channelId: ID!, input: PostMutationInput!): Post!
+  postUpdate(id: ID!, input: PostMutationInput!): Post!
+  postDelete(id: ID!): Boolean!
+}
+
+type Subscription {
+  postStream: Post!
+}

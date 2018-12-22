@@ -1,7 +1,11 @@
 type User {
   _id: ID
+
   username: String
   email: String
+  fullname: String
+  description: String
+
   createdAt: String
   updatedAt: String
 }
@@ -10,12 +14,16 @@ input UserQueryInput {
   _id: ID
   username: String
   email: String
+  fullname: String
+  description: String
 }
 
 input UserMutationInput {
   username: String
   password: String
   email: String
+  fullname: String
+  description: String
 }
 
 type Query {

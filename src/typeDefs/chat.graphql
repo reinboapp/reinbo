@@ -7,21 +7,21 @@ enum ChatEmbedType {
 type Chat {
   _id: ID
 
-  userId: ID
-  channelId: ID
+  user: User
+  channel: Channel
 
-  content: String
-  embedType: ChatEmbedType
-  embedLink: String
+  text: String
+  type: ChatEmbedType
+  embed: String
 
   createdAt: String
   updatedAt: String
 }
 
-type ChatMutationInput {
-  content: String
-  embedType: ChatEmbedType
-  embedLink: String
+input ChatMutationInput {
+  text: String
+  type: ChatEmbedType
+  embed: String
 }
 
 type Mutation {

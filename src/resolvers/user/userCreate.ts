@@ -14,6 +14,10 @@ export async function userCreate(
   user.username = input.username;
   user.password = input.password;
   user.email = input.email;
+  user.fullname = input.fullname || "";
+  user.description = input.description || "";
+  user.hasAvatar = input.hasAvatar || false;
+  user.isSecret = input.isSecret || false;
 
   const errors: ValidationError[] = await validate(user, {
     groups: ["mutation"]
