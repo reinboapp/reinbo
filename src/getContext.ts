@@ -1,11 +1,12 @@
 import { ContextParameters } from "graphql-yoga/dist/types";
 import * as Redis from "ioredis";
 import * as jwt from "jsonwebtoken";
-import { Db, MongoClient } from "mongodb";
+import { Db, MongoClient, ObjectID } from "mongodb";
 import { User } from "./entities/User";
 import { PubSub } from "graphql-yoga";
 
-export interface JwtUser extends User {
+export interface JwtUser {
+  _id?: ObjectID;
   iat?: number;
   exp?: number;
   error?: jwt.VerifyErrors | false;

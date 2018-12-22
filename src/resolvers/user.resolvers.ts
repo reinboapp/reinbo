@@ -1,6 +1,7 @@
 import { userCreate } from "./user/userCreate";
 import { userFind } from "./user/userFind";
 import { userFindOne } from "./user/userFindOne";
+import { userUpdate } from "./user/userUpdate";
 
 export default {
   Query: {
@@ -8,6 +9,7 @@ export default {
     userFindOne
   },
   Mutation: {
-    userCreate
+    userCreate,
+    userUpdate
   }
 };

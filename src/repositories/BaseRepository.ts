@@ -1,4 +1,4 @@
-import { Collection, Db } from "mongodb";
+import { Collection, Db, ObjectID } from "mongodb";
 import DatabaseError from "../errors/DatabaseError";
 import { BaseEntity } from "./../entities/BaseEntity";
 
@@ -37,20 +37,26 @@ export class BaseRepository<T extends BaseEntity> {
     }
   }
 
-  async update(_id: string, item: T): Promise<T> {
+  async update(_id: ObjectID, item: T): Promise<T> {
     try {
+      _id = new ObjectID(_id);
       item.updatedAt = new Date();
-      await this.collection.updateOne({ _id }, item);
-      return item;
+      const result = await this.collection.findOneAndUpdate(
+        { _id },
+        { $set: item },
+        { returnOriginal: false }
+      );
+      return result.value;
     } catch (e) {
       throw new DatabaseError(e);
     }
   }
 
-  async delete(_id: string): Promise<{ deleted: true }> {
+  async delete(_id: ObjectID): Promise<true> {
     try {
+      _id = new ObjectID(_id);
       await this.collection.deleteOne({ _id });
-      return { deleted: true };
+      return true;
     } catch (e) {
       throw new DatabaseError(e);
     }

@@ -11,6 +11,7 @@ export async function userCreate(
   { mongoDb }: { mongoDb: Db }
 ) {
   const user = new User();
+
   user.username = input.username;
   user.password = input.password;
   user.email = input.email;
