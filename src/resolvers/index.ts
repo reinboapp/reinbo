@@ -20,8 +20,8 @@ const getKeys = obj => Object.keys(obj ? obj : {});
 
 export const resolversKeys = {
   Mutation: getKeys(resolvers.Mutation),
-  Query: getKeys(resolvers.Query)
-  // Subscription: getKeys(resolvers.Subscription)
+  Query: getKeys(resolvers.Query),
+  Subscription: getKeys(resolvers.Subscription)
 };
 
 export default resolvers;

@@ -39,6 +39,8 @@ export default {
   },
   Query: {
     ...withAuth("Query")
+  },
+  Subscription: {
+    ...withAuth("Subscription")
   }
-  // Subscription: {}
 };

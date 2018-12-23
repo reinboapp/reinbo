@@ -3,8 +3,8 @@ import * as Redis from "ioredis";
 import * as jwt from "jsonwebtoken";
 import { Db, MongoClient, ObjectID } from "mongodb";
 import { User } from "./entities/User";
-import { PubSub } from "graphql-yoga";
 import { mongoClient } from ".";
+import { RedisPubSub } from "graphql-redis-subscriptions";
 
 export interface JwtUser {
   _id?: ObjectID;
@@ -18,14 +18,28 @@ export interface AppContext {
   userAgent: string;
   redis: Redis.Redis;
   redisPub: Redis.Redis;
-  pubsub: PubSub;
+  pubsub: RedisPubSub;
 }
 
 const getContext = () => {
   const context = async (req: ContextParameters): Promise<AppContext> => {
     // get from header
-    const authHeader: string = req.request.header("Authorization");
-    const userAgent: string = req.request.header("user-agent");
+    let authHeader: string = "";
+    let userAgent: string = "";
+
+    // via Mutation (http post)
+    if (req.request) {
+      authHeader = req.request.header("Authorization");
+      userAgent = req.request.header("user-agent");
+    }
+    // via Subscription (websocket)
+    if (
+      req.connection &&
+      req.connection.context &&
+      req.connection.context.authorization
+    ) {
+      authHeader = req.connection.context.authorization;
+    }
 
     let token: string | false = false;
     let authUser: JwtUser = {};
@@ -55,7 +69,7 @@ const getContext = () => {
     }
 
     const mongoDb = mongoClient().db();
-    const pubsub = new PubSub();
+    const pubsub = new RedisPubSub();
     const redis = new Redis();
     const redisPub = new Redis();
 

@@ -1,7 +1,6 @@
 import { UserRepository } from "./../../repositories/UserRepository";
 import { mongoClient } from "./../../index";
-// import { ObjectID } from "bson";
-import { Db, ObjectID } from "mongodb";
+import { Db } from "mongodb";
 
 export function getMembers(room) {
   const mongoDb = mongoClient().db();

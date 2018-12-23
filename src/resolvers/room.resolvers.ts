@@ -1,5 +1,6 @@
-import { roomCreate } from "./room/roomCreate";
 import { getMembers } from "./room/getMembers";
+import { roomCreate } from "./room/roomCreate";
+import { roomJoin } from "./room/roomJoin";
 import { roomFindOne } from "./room/roomFindOne";
 
 export default {
@@ -8,7 +9,8 @@ export default {
     // userFindOne
   },
   Mutation: {
-    roomCreate
+    roomCreate,
+    roomJoin
   },
   Room: {
     members: getMembers
