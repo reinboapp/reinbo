@@ -1,11 +1,15 @@
 import { Collection, Db, ObjectID } from "mongodb";
 import DatabaseError from "../errors/DatabaseError";
 import { BaseEntity } from "./../entities/BaseEntity";
+import NotFoundError from "../errors/NotFoundError";
+import BaseError from "../errors/BaseError";
 
 export class BaseRepository<T extends BaseEntity> {
   protected readonly collection: Collection;
+  protected collectionName: string;
 
   constructor(db: Db, collectionName: string) {
+    this.collectionName = collectionName;
     this.collection = db.collection(collectionName);
   }
 
@@ -20,8 +24,14 @@ export class BaseRepository<T extends BaseEntity> {
   async findOne(item: T): Promise<T> {
     try {
       const result = await this.collection.findOne(item);
+      if (!result) {
+        throw new NotFoundError(undefined, [{ entity: this.collectionName }]);
+      }
       return result;
     } catch (e) {
+      if (e.statusCode) {
+        throw e;
+      }
       throw new DatabaseError(e);
     }
   }
@@ -39,7 +49,6 @@ export class BaseRepository<T extends BaseEntity> {
 
   async update(_id: ObjectID, item: T): Promise<T> {
     try {
-      _id = new ObjectID(_id);
       item.updatedAt = new Date();
       const result = await this.collection.findOneAndUpdate(
         { _id },

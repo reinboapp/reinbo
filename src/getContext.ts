@@ -4,6 +4,7 @@ import * as jwt from "jsonwebtoken";
 import { Db, MongoClient, ObjectID } from "mongodb";
 import { User } from "./entities/User";
 import { PubSub } from "graphql-yoga";
+import { mongoClient } from ".";
 
 export interface JwtUser {
   _id?: ObjectID;
@@ -20,7 +21,7 @@ export interface AppContext {
   pubsub: PubSub;
 }
 
-const getContext = (client: MongoClient) => {
+const getContext = () => {
   const context = async (req: ContextParameters): Promise<AppContext> => {
     // get from header
     const authHeader: string = req.request.header("Authorization");
@@ -53,7 +54,7 @@ const getContext = (client: MongoClient) => {
       }
     }
 
-    const mongoDb = client.db();
+    const mongoDb = mongoClient().db();
     const pubsub = new PubSub();
     const redis = new Redis();
     const redisPub = new Redis();

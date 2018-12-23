@@ -2,7 +2,7 @@
 require("now-env");
 import { MongoClient } from "mongodb";
 
-const url = process.env.MONGO_URI_DEVELOPMENT;
+const url = process.env.MONGO_URI;
 
 MongoClient.connect(
   url,
@@ -11,10 +11,12 @@ MongoClient.connect(
   const db = client.db();
 
   console.log("creating index for users");
-
   await db.createIndex("users", "email", { unique: true });
   await db.createIndex("users", "username", { unique: true });
   await db.createIndex("users", { username: "text", email: "text" });
+
+  console.log("creating index for rooms");
+  await db.createIndex("rooms", "roomname", { unique: true });
 
   console.log("finish creating index");
 

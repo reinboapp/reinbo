@@ -1,11 +1,16 @@
 import { roomCreate } from "./room/roomCreate";
+import { getMembers } from "./room/getMembers";
+import { roomFindOne } from "./room/roomFindOne";
 
 export default {
   Query: {
-    // userFind,
+    roomFindOne
     // userFindOne
   },
   Mutation: {
     roomCreate
+  },
+  Room: {
+    members: getMembers
   }
 };

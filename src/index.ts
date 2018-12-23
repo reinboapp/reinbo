@@ -4,7 +4,7 @@ require("now-env");
 require("pretty-error").start();
 
 import { GraphQLServer } from "graphql-yoga";
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient, ObjectId, Db } from "mongodb";
 import getContext from "./getContext";
 import middlewares from "./middlewares";
 import { default as resolvers } from "./resolvers";
@@ -17,32 +17,41 @@ ObjectId.prototype.valueOf = function() {
   return this.toString();
 };
 
+let mongoDbClient = null;
+
 MongoClient.connect(
   mongoUri,
   {
     useNewUrlParser: true
   }
 )
-  .then(async client => {
-    const context = getContext(client);
-
-    const server = new GraphQLServer({
-      typeDefs,
-      resolvers,
-      context,
-      middlewares
-    });
-
-    await server.start({
-      formatError(err) {
-        return {
-          ...err.originalError,
-          ...err
-        };
-      }
-    });
-    console.log("Server is running on localhost:4000");
+  .then(async (client: MongoClient) => {
+    console.log("mongodb connected");
+    mongoDbClient = client;
   })
   .catch(err => {
     console.error(err);
   });
+
+export const mongoClient = (): MongoClient | null => mongoDbClient;
+
+const context = getContext();
+
+const server = new GraphQLServer({
+  typeDefs,
+  resolvers,
+  context,
+  middlewares
+});
+
+server.start(
+  {
+    formatError(err) {
+      return {
+        ...err.originalError,
+        ...err
+      };
+    }
+  },
+  () => console.log("Server is running on localhost:4000")
+);

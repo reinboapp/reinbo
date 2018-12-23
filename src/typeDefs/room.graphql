@@ -4,13 +4,15 @@ type Room {
   roomname: String # Public, like username
   name: String
   description: String
-  isPrivate: Boolean
   isGroup: Boolean
+  isSecret: Boolean
 
   owner: ID
   admins: [User]
   members: [User]
   channels: [Channel]
+
+  tags: [String]
 
   createdAt: String
   updatedAt: String
@@ -21,16 +23,22 @@ input RoomQueryInput {
   roomname: String # Public, like username
   name: String
   description: String
-  isPrivate: Boolean
+  tags: [String]
   isGroup: Boolean
+  isSecret: Boolean
 }
 
 input RoomMutationInput {
-  roomname: String! # Public, like username
-  name: String!
-  description: String!
-  isPublic: Boolean!
-  isGroup: Boolean!
+  roomname: String # Public, like username
+  name: String
+  description: String
+
+  isGroup: Boolean
+  isSecret: Boolean
+
+  members: [ID]
+  admins: [ID]
+  owner: ID
 }
 
 type Query {

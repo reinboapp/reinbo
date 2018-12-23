@@ -2,9 +2,9 @@ import { BaseEntity } from "./BaseEntity";
 import {
   Matches,
   IsEmail,
-  MinLength,
   MaxLength,
-  IsBoolean
+  IsBoolean,
+  Length
 } from "class-validator";
 
 export class User extends BaseEntity {
@@ -17,8 +17,7 @@ export class User extends BaseEntity {
   @IsEmail({}, { groups: ["query", "mutation"] })
   email?: string;
 
-  @MinLength(8, { groups: ["mutation"] })
-  @MaxLength(256, { groups: ["mutation"] })
+  @Length(8, 256, { groups: ["mutation"] })
   password?: string;
 
   @MaxLength(50, { groups: ["mutation"] })
