@@ -16,6 +16,7 @@
     "bson": "^4.0.1",
     "class-validator": "^0.9.1",
     "express": "^4.14.0",
+    "google-auth-library": "^2.0.2",
     "graphql-redis-subscriptions": "^2.0.0",
     "graphql-yoga": "^1.16.7",
     "ioredis": "^4.3.0",

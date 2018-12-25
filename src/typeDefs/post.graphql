@@ -7,7 +7,7 @@ enum PostEmbedType {
 type Post {
   _id: ID
 
-  userId: ID
+  user: User
 
   text: String
   type: PostEmbedType

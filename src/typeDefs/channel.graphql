@@ -1,7 +1,7 @@
 type Channel {
   _id: ID
 
-  roomId: ID
+  room: Room
 
   channelname: String
   name: String

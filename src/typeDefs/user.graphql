@@ -32,7 +32,7 @@ type Query {
 }
 
 type Mutation {
-  userCreate(input: UserMutationInput!): User!
+  # userCreate(input: UserMutationInput!): User!
   userUpdate(id: ID!, input: UserMutationInput!): User!
   userDelete(id: ID!): Boolean!
 }

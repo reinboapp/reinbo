@@ -33,12 +33,14 @@ const passAuth = resolve => resolve();
 export default {
   Mutation: {
     ...withAuth("Mutation"),
-    authLogin: passAuth,
+    // authLogin: passAuth,
     authRefreshToken: passAuth,
-    userCreate: passAuth
+    authWithGoogle: passAuth
+    // userCreate: passAuth
   },
   Query: {
-    ...withAuth("Query")
+    ...withAuth("Query"),
+    welcome: passAuth
   },
   Subscription: {
     ...withAuth("Subscription")

@@ -1,6 +1,6 @@
 import * as jwt from "jsonwebtoken";
-
 export interface TokenReturn {
+  userId: string;
   accessToken: string;
   refreshToken: string;
 }
@@ -16,8 +16,9 @@ export async function createToken({
     _id
   };
   const accessSecret = process.env.JWT_ACCESS_SECRET;
+  const isProd = process.env.NODE_ENV === "production";
   const accessToken = await jwt.sign(accessPayload, accessSecret, {
-    expiresIn: "1h"
+    expiresIn: isProd ? "1h" : "10d"
   });
 
   const refreshPayload = {
@@ -26,10 +27,11 @@ export async function createToken({
   };
   const refreshSecret = process.env.JWT_REFRESH_SECRET;
   const refreshToken = await jwt.sign(refreshPayload, refreshSecret, {
-    expiresIn: "7d"
+    expiresIn: isProd ? "7d" : "30d"
   });
 
   return {
+    userId: _id,
     accessToken,
     refreshToken
   };

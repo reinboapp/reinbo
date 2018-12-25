@@ -1,6 +1,8 @@
 type Auth {
+  userId: ID
   accessToken: String
   refreshToken: String
+  authUser: User
 }
 
 input AuthInput {
@@ -13,7 +15,12 @@ input RefreshTokenInput {
   refreshToken: String!
 }
 
+input GoogleTokenInput {
+  googleToken: String!
+}
+
 type Mutation {
-  authLogin(input: AuthInput!): Auth!
+  # authLogin(input: AuthInput!): Auth!
+  authWithGoogle(input: GoogleTokenInput!): Auth!
   authRefreshToken(input: RefreshTokenInput!): Auth!
 }

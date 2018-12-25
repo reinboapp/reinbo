@@ -17,7 +17,7 @@ export async function authRefreshToken(
   }
   const tokenPayload = (await jwt.decode(refreshToken)) as {
     _id: string;
-    ua: string;
+    userAgent: string;
   };
-  return createToken({ _id: tokenPayload._id, userAgent: tokenPayload.ua });
+  return createToken(tokenPayload);
 }

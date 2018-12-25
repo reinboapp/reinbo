@@ -31,4 +31,9 @@ export class User extends BaseEntity {
 
   @IsBoolean({ groups: ["mutation"] })
   isSecret?: boolean;
+
+  @Length(8, 256, { groups: ["query"] })
+  googleId?: string;
+
+  onboard?: boolean;
 }

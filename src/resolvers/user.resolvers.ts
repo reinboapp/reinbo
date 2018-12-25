@@ -9,7 +9,7 @@ export default {
     userFindOne
   },
   Mutation: {
-    userCreate,
+    // userCreate,
     userUpdate
   }
 };
