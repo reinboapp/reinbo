@@ -23,6 +23,7 @@ export async function authWithGoogle(
     });
 
     const payload = ticket.getPayload();
+    console.log(payload);
     const googleId = payload.sub;
     const userRepository = new UserRepository(mongoDb);
 
@@ -33,6 +34,7 @@ export async function authWithGoogle(
     } catch (e) {
       /** if user not found, create user */
       if (e.statusCode === 404) {
+        // console.log(googleId);
         const createdUser = await userRepository.create({
           googleId,
           email: payload.email,

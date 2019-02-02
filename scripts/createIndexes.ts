@@ -13,7 +13,7 @@ MongoClient.connect(
   console.log("creating index for users");
   await db.createIndex("users", "email", { unique: true });
   await db.createIndex("users", "googleId", { unique: true });
-  await db.createIndex("users", "username", { unique: true });
+  // await db.createIndex("users", "username", { unique: true });
 
   console.log("creating index for rooms");
   await db.createIndex("rooms", "roomname", { unique: true });
