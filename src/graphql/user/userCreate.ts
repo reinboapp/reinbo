@@ -13,7 +13,7 @@ export async function userCreate(
   const user = new User();
 
   user.username = input.username;
-  user.password = input.password;
+  // user.password = input.password;
   user.email = input.email;
   user.fullname = input.fullname || "";
   user.description = input.description || "";
@@ -28,7 +28,7 @@ export async function userCreate(
     throw new CustomValidationError(errors);
   } else {
     const userRepository = new UserRepository(mongoDb);
-    user.password = await argon2.hash(user.password);
+    // user.password = await argon2.hash(user.password);
     return userRepository.create(user);
   }
 }

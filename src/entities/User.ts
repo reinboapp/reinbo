@@ -17,8 +17,8 @@ export class User extends BaseEntity {
   @IsEmail({}, { groups: ["query", "mutation"] })
   email?: string;
 
-  @Length(8, 256, { groups: ["mutation"] })
-  password?: string;
+  // @Length(8, 256, { groups: ["mutation"] })
+  // password?: string;
 
   @MaxLength(50, { groups: ["mutation"] })
   fullname?: string;
@@ -32,8 +32,8 @@ export class User extends BaseEntity {
   @IsBoolean({ groups: ["mutation"] })
   isSecret?: boolean;
 
-  @Length(8, 256, { groups: ["query"] })
   googleId?: string;
 
+  isGSuite?: boolean;
   onboard?: boolean;
 }

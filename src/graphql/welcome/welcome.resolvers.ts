@@ -1,4 +1,4 @@
-import { AppContext } from "./../getContext";
+import { AppContext } from "./../../getContext";
 import { withFilter } from "graphql-yoga";
 
 export default {

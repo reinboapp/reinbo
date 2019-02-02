@@ -7,8 +7,8 @@ import { GraphQLServer } from "graphql-yoga";
 import { MongoClient, ObjectId, Db } from "mongodb";
 import getContext from "./getContext";
 import middlewares from "./middlewares";
-import { default as resolvers } from "./resolvers";
-import { default as typeDefs } from "./typeDefs";
+import resolvers from "./graphql/resolvers";
+import typeDefs from "./graphql/typeDefs";
 
 const mongoUri = process.env.MONGO_URI;
 

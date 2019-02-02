@@ -22,7 +22,6 @@ export async function authLogin(
   const auth = new Auth();
   auth.email = input.email;
   auth.username = input.username;
-  auth.password = input.password;
 
   if (!auth.email && !auth.username) {
     throw new BadRequestError("Email/Username not provided");
@@ -64,10 +63,10 @@ export async function authLogin(
     );
   }
 
-  const passwordVerified = await argon2.verify(user.password, auth.password);
-  if (!passwordVerified) {
-    throw new UnauthorizedError("Wrong password");
-  }
+  // const passwordVerified = await argon2.verify(user.password, auth.password);
+  // if (!passwordVerified) {
+  //   throw new UnauthorizedError("Wrong password");
+  // }
 
   return createToken({ _id: user._id as string, userAgent });
 }

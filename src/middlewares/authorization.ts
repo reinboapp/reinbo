@@ -1,6 +1,6 @@
 import BaseError from "../errors/BaseError";
 import UnauthorizedError from "../errors/UnauthorizedError";
-import { resolversKeys } from "../resolvers/";
+import { resolversKeys } from "../graphql/resolvers";
 import { AppContext } from "./../getContext";
 
 const createAuth = () => {

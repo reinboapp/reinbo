@@ -23,9 +23,7 @@ export async function authWithGoogle(
     });
 
     const payload = ticket.getPayload();
-
     const googleId = payload.sub;
-
     const userRepository = new UserRepository(mongoDb);
 
     try {

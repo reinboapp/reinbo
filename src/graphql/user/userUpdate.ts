@@ -32,9 +32,6 @@ export async function userUpdate(
     throw new CustomValidationError(errors);
   } else {
     const userRepository = new UserRepository(mongoDb);
-    if (user.password) {
-      user.password = await argon2.hash(user.password);
-    }
     return userRepository.update(id, user);
   }
 }
